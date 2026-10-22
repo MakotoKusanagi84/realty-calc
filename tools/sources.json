@@ -1,0 +1,6 @@
+{
+  "_comment": "Пока адреса пустые, скрипт ничего не скачивает и не выдаёт ошибок. inflation_xlsx_url — прямая ссылка на xlsx «Индексы потребительских цен на товары и услуги по РФ, месяцы (с 1991 г.)» со страницы https://rosstat.gov.ru/statistics/price. Если имя файла у Росстата меняется каждый месяц, постоянная ссылка не подойдёт — тогда обновляйте data/inflation.json вручную (см. README). key_rate_url — служба Банка России, пример ниже НЕ проверен: пробуйте через запуск с --dry-run.",
+  "inflation_xlsx_url": "",
+  "key_rate_url": "",
+  "key_rate_url_example": "https://www.cbr.ru/DailyInfoWebServ/DailyInfo.asmx/KeyRateXML?fromDate={from}&ToDate={to}"
+}
