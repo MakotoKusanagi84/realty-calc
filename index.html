@@ -15,23 +15,51 @@ button{margin-top:14px;padding:10px 20px;border:0;border-radius:6px;background:v
 table{width:100%;border-collapse:collapse}td,th{padding:5px 0 5px 12px;text-align:right;vertical-align:baseline;font-variant-numeric:tabular-nums}td:first-child,th:first-child{text-align:left;padding-left:0}td+td,th+th{white-space:nowrap}
 th{font-weight:400;font-size:12px;color:var(--mu)}tr.b td{font-weight:700;color:var(--ac)}tr.s td{padding-top:12px;font-size:12px;color:var(--ac);border-bottom:1px solid var(--bd)}
 small,.n{color:var(--mu);font-size:12px}.e{color:#b45309}
+.br{display:grid;grid-template-columns:minmax(120px,38%) 1fr;gap:8px;align-items:center;margin:6px 0;font-size:13px}.bw{display:flex;align-items:center;gap:8px}.bw .bb{flex:none;max-width:55%}.bb{height:14px;background:var(--ac);border-radius:3px}summary{cursor:pointer}
+.tabs{display:flex;gap:4px;margin:6px 0 2px;border-bottom:1px solid var(--bd)}.tb{margin:0;padding:8px 14px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--mu);font:inherit;font-weight:600;cursor:pointer}.tb.on{color:var(--ac);border-color:var(--ac)}
+.tp{display:none}.tp.on{display:block}.pr1{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 0;border-bottom:1px solid var(--bd)}.rr{grid-column:1/3;display:flex;gap:10px;align-items:center}.x{cursor:pointer;color:var(--mu);padding:0 4px}.lk{background:none;color:var(--ac);padding:6px 0;margin-top:6px}
 </style></head><body><main>
 <h1>Доходность недвижимости</h1>
 <div class="g"><form class="c" id="f" onsubmit="return go(event)">
+<p class="n" style="margin:0 0 4px">Поля заполнены примером — замените своими данными.</p>
+<div class="tabs"><button type="button" class="tb on" data-t="t1">Объект</button><button type="button" class="tb" data-t="t2">Аренда</button><button type="button" class="tb" data-t="t3">Налоги</button><button type="button" class="tb" data-t="t4">Ипотека</button><button type="button" class="tb" data-t="t5">Вклад</button></div>
+<div class="tp on" id="t1">
 <label>Название</label><input id="nm" value="Квартира у метро">
 <label>Стоимость покупки, р.</label><input class="m" id="pr" inputmode="numeric" value="1 530 000">
 <label>Затраты на ремонт, р.</label><input class="m" id="rn" inputmode="numeric" value="300 000">
 <label>Дата покупки</label><input type="date" id="bd" value="2016-05-15" min="1991-01-01">
 <label>Дата продажи (оценки)</label><input type="date" id="sd" value="2026-03-24">
 <label>Актуальная стоимость, р.</label><input class="m" id="cv" inputmode="numeric" value="8 000 000">
-<label>Средневзвешенная аренда в месяц, р.</label><input class="m" id="rt" inputmode="numeric" value="20 000">
-<label>Коммунальные в месяц, р.</label><input class="m" id="ut" inputmode="numeric" value="3 000">
-<div class="r"><input type="checkbox" id="inf" checked><span>Учитывать инфляцию</span></div>
+<div class="r"><input type="checkbox" id="inf" checked><span>Учитывать инфляцию</span></div></div>
+<div class="tp" id="t2">
+<label>Как указать аренду</label><select id="md"><option value="p">По периодам (с простоями)</option><option value="s">Одной цифрой</option></select>
+<div id="pt"><p class="n" style="margin:8px 0 0">Для каждого периода: с даты, по дату (включительно) и аренда в месяц. Дни между периодами считаются простоем.</p><div id="rows"></div><button type="button" class="lk" onclick="addRow('','','')">+ Добавить период</button></div>
+<div id="sg" style="display:none"><label>Средневзвешенная аренда в месяц, р.</label><input class="m" id="rt" inputmode="numeric" value="20 000"></div>
+<label>Цена аренды на момент покупки, р. (необязательно)</label><input class="m" id="rb" inputmode="numeric">
+<label>Цена аренды на сегодняшний день, р. (необязательно)</label><input class="m" id="rw" inputmode="numeric">
+<label>Коммунальные в месяц, р.</label><input class="m" id="ut" inputmode="numeric" value="3 000"></div>
+<div class="tp" id="t3">
 <div class="r"><input type="checkbox" id="tx"><span>НДФЛ с аренды</span><select id="tr" style="width:auto"><option value="13">13 %</option><option value="6">6 % (УСН)</option></select></div>
 <div class="r"><input type="checkbox" id="st"><span>НДФЛ при продаже</span><select id="sy" style="width:auto"><option value="5">срок 5 лет</option><option value="3">срок 3 года</option></select></div>
+<div class="r"><input type="checkbox" id="pk"><span>Налог на имущество</span><input class="m" id="pa" inputmode="numeric" placeholder="р. в год" style="width:130px"></div></div>
+<div class="tp" id="t4">
+<div class="r"><input type="checkbox" id="mc"><span>Покупка в ипотеку</span></div>
+<label>Первоначальный взнос, р.</label><input class="m" id="dn" inputmode="numeric" value="700 000">
+<label>Ставка, % годовых</label><input id="mr" inputmode="decimal" value="14,5">
+<label>Срок, лет</label><input id="mt" inputmode="numeric" value="20">
+<label>Вид платежа</label><select id="mk"><option value="a">Аннуитетный (платёж одинаковый)</option><option value="d">Дифференцированный (платёж убывает)</option></select>
+<label>Страхование, % в год от остатка (необязательно)</label><input id="mi" inputmode="decimal" value="0,5">
+<p class="n">Досрочное погашение по закону возможно без штрафов, поэтому при продаже остаток долга гасится из вырученных денег. Закон не задаёт минимальный взнос — это условие банка.</p></div>
+<div class="tp" id="t5">
+<div class="r"><input type="checkbox" id="dc"><span>Сравнить с вкладом</span></div>
+<label>Ставка вклада, % годовых</label><input id="dr" inputmode="decimal" value="16">
+<div class="r"><input type="checkbox" id="dtx" checked><span>Учитывать налог на проценты (НДФЛ)</span></div>
+<p class="n">Проценты капитализируются ежемесячно. Проценты за 2021–2022 годы налогом не облагались. С 2023 года: 13 % (15 % с части свыше 5 млн р., с 2025 года — свыше 2,4 млн р.) с процентов сверх 1 млн р. × наибольшая ключевая ставка года (2023 — 15 %, 2024 и 2025 — 21 %, 2026 — 16 %, дальше принято 14 %).</p></div>
 <button>Рассчитать</button><p class="e" id="er"></p></form>
 <div class="c" id="out"><span class="n">Заполните данные и нажмите «Рассчитать».</span></div></div>
-<p class="n">Расчёт справочный и не заменяет консультацию налогового специалиста. Инфляция — по месячным данным России с 1991 г. до <span id="dl"></span>, дальше принято 6 % годовых. Не учтены ипотека, вклад, таблица периодов аренды и график — они есть в настольной версии.</p>
+<div class="c" id="chd" style="display:none;margin-top:14px"><div class="r" style="justify-content:space-between;margin:0"><b>Денежные потоки по годам</b><select id="cm" style="width:auto"><option value="n">Номинально</option><option value="r">С учётом инфляции</option></select></div><canvas id="ch" width="620" height="340" style="width:100%;height:340px;margin-top:6px"></canvas><p class="n" id="cn"></p></div>
+<details class="c" id="ib" style="display:none;margin-top:14px"><summary><b>Расшифровка IRR: из чего складывается</b></summary><div id="ibb"></div></details>
+<p class="n">Расчёт справочный и не заменяет консультацию налогового специалиста. Инфляция — по месячным данным России с 1991 г. до <span id="dl"></span>, дальше принято 6 % годовых.</p>
 </main>
 <script id="eng">
 const D="1991:6.2,4.8,6.3,63.5,3.0,1.2,0.6,0.5,1.1,3.5,8.9,12.1;1992:245.3,38.0,29.9,21.7,11.9,19.1,10.6,8.6,11.5,22.9,26.1,25.2;1993:25.8,24.7,20.1,18.7,18.1,19.9,22.39,26.0,23.0,19.5,16.39,12.5;1994:17.9,10.82,7.41,8.49,6.91,6.0,5.33,4.62,7.96,15.0,14.61,16.44;1995:17.77,11.02,8.94,8.47,7.93,6.66,5.38,4.56,4.46,4.72,4.56,3.2;1996:4.11,2.79,2.8,2.16,1.6,1.17,0.72,-0.21,0.33,1.2,1.88,1.42;1997:2.34,1.54,1.43,0.96,0.94,1.1,0.93,-0.14,-0.3,0.17,0.61,0.96;1998:1.51,0.89,0.64,0.38,0.5,0.08,0.17,3.67,38.43,4.54,5.67,11.61;1999:8.38,4.13,2.79,3.03,2.22,1.91,2.82,1.16,1.48,1.37,1.23,1.26;2000:2.33,1.04,0.64,0.89,1.75,2.55,1.79,0.98,1.32,2.11,1.52,1.64;2001:2.76,2.28,1.86,1.79,1.78,1.62,0.45,0.01,0.6,1.09,1.36,1.6;2002:3.09,1.16,1.08,1.16,1.69,0.53,0.72,0.09,0.4,1.07,1.61,1.54;2003:2.4,1.63,1.05,1.02,0.8,0.8,0.71,-0.41,0.34,1.0,0.96,1.1;2004:1.75,0.99,0.75,0.99,0.74,0.78,0.92,0.42,0.43,1.14,1.11,1.14;2005:2.62,1.23,1.34,1.12,0.8,0.64,0.46,-0.14,0.25,0.55,0.74,0.82;2006:2.43,1.66,0.82,0.35,0.48,0.28,0.67,0.19,0.09,0.28,0.63,0.79;2007:1.68,1.11,0.59,0.57,0.63,0.95,0.87,0.09,0.79,1.64,1.23,1.13;2008:2.31,1.2,1.2,1.42,1.35,0.97,0.51,0.36,0.8,0.91,0.83,0.69;2009:2.37,1.65,1.31,0.69,0.57,0.6,0.63,0.0,-0.03,0.0,0.29,0.41;2010:1.64,0.86,0.63,0.29,0.5,0.39,0.36,0.55,0.84,0.5,0.81,1.08;2011:2.37,0.78,0.62,0.43,0.48,0.23,-0.01,-0.24,-0.04,0.48,0.42,0.44;2012:0.5,0.37,0.58,0.31,0.52,0.89,1.23,0.1,0.55,0.46,0.34,0.54;2013:0.97,0.56,0.34,0.51,0.66,0.42,0.82,0.14,0.21,0.57,0.56,0.51;2014:0.59,0.7,1.02,0.9,0.9,0.62,0.49,0.24,0.65,0.82,1.28,2.62;2015:3.85,2.22,1.21,0.46,0.35,0.19,0.8,0.35,0.57,0.74,0.75,0.77;2016:0.96,0.63,0.46,0.44,0.41,0.36,0.54,0.01,0.17,0.43,0.44,0.4;2017:0.62,0.22,0.13,0.33,0.37,0.61,0.07,-0.54,-0.15,0.2,0.22,0.42;2018:0.31,0.21,0.29,0.38,0.38,0.49,0.27,0.01,0.16,0.35,0.5,0.84;2019:1.01,0.44,0.32,0.29,0.34,0.04,0.2,-0.24,-0.16,0.13,0.28,0.36;2020:0.4,0.33,0.55,0.83,0.27,0.22,0.35,-0.04,-0.07,0.43,0.71,0.83;2021:0.67,0.78,0.66,0.58,0.74,0.69,0.31,0.17,0.6,1.11,0.96,0.82;2022:0.99,1.17,7.61,1.56,0.12,-0.35,-0.39,-0.52,0.05,0.18,0.37,0.78;2023:0.84,0.46,0.37,0.38,0.31,0.37,0.63,0.28,0.87,0.83,1.11,0.73;2024:0.86,0.68,0.39,0.5,0.74,0.64,1.14,0.2,0.48,0.75,1.43,1.32;2025:1.23,0.81,0.65,0.4,0.43,0.2,0.57,-0.4,0.34,0.5,0.42,0.32;2026:1.62,0.73,0.6,0.14,0.17,0.87,0.54,-0.08,0.35",M={};D.split(";").forEach(s=>{const[y,v]=s.split(":");v.split(",").forEach((x,i)=>M[(+y-1991)*12+i]=+x/100)});
@@ -50,28 +78,85 @@ function addM(d,k){const t=d.getUTCMonth()+k,y=d.getUTCFullYear()+Math.floor(t/1
 function irr(f){const t0=f[0][0],n=r=>f.reduce((s,[d,a])=>s+a/Math.pow(1+r,(d-t0)/864e5/365),0);let lo=-.99,hi=1e3,fl=n(lo);if(fl*n(hi)>0)return null;for(let i=0;i<200;i++){const m=(lo+hi)/2,fm=n(m);if(fl*fm<=0)hi=m;else{lo=m;fl=fm}}return(lo+hi)*50}
 const SC=[[2.4e6,13],[5e6,15],[2e7,18],[5e7,20],[1/0,22]];
 function prog(x){let t=0,lo=0;for(const[u,r]of SC){if(x>lo)t+=(Math.min(x,u)-lo)*r/100;lo=u}return t}
+// ипотека: график платежей до даты продажи; остаток долга гасится при продаже (досрочно, без штрафов)
+function mort(loan,rate,yrs,kind,ins,b,s){const n=yrs*12,r=rate/1200,an=r?loan*r/(1-Math.pow(1+r,-n)):loan/n;let bal=loan,first=null,it=0,k=1;const pay=[];
+while(k<=n&&addM(b,k)<=s){const i=bal*r;let pr=kind=="a"?an-i:loan/n;if(k==n)pr=bal;const sv=bal*ins/1200;if(first==null)first=pr+i;bal-=pr;pay.push([addM(b,k).getTime(),pr+i+sv]);it+=i;k++}
+let off=0;if(bal>.5){const l=addM(b,k-1),sh=(s-l)/864e5/((addM(b,k)-l)/864e5);off=bal+bal*r*sh+bal*ins/1200*sh;it+=bal*r*sh}return{pay:new Map(pay),first,it,off}}
+const KR={2023:15,2024:21,2025:21,2026:16};// наибольшая ключевая ставка года, %: необлагаемая часть процентов по вкладу = 1 млн р. × ставка (проценты 2021–2022 годов налогом не облагались)
+// годовые суммы для графика: d.mid — ежемесячные потоки, d.st — покупка, d.en — продажа
+function yser(d){const n=Math.max(1,Math.floor((d.mid.length-1)/12)+1),py=Array(n+1).fill(0);d.mid.forEach((a,k)=>py[Math.floor(k/12)+1]+=a);const cum=[d.st];let run=d.st;for(let y=1;y<=n;y++){run+=py[y];if(y==n)run+=d.en;cum.push(run)}return{n,py,cum}}
 function met(f,inv,yrs,gross){const fin=f[f.length-1][1],rent=f.slice(1,-1).reduce((s,x)=>s+x[1],0),cg=x=>x>0?(Math.pow(x,1/yrs)-1)*100:null,tp=rent+fin-inv;
-return{growth:gross/inv,rent,profit:fin-inv,tp,tr:tp/inv*100,gc:cg(gross/inv),tc:cg((fin+rent)/inv),irr:irr(f)}}
+return{fin,gn:cg(fin/inv),growth:gross/inv,rent,profit:fin-inv,tp,tr:tp/inv*100,gc:cg(gross/inv),tc:cg((fin+rent)/inv),irr:irr(f)}}
 function calc(p){const{b,s,price:pr,reno,cur,rent,ut,rtax,sale}=p;if(s<=b)throw Error("Дата продажи должна быть позже даты покупки");
-const yrs=(s-b)/864e5/365,inv=pr+reno,iv=[];let k=1;while(addM(b,k)<=s){iv.push([addM(b,k-1),addM(b,k),1]);k++}
-const lf=addM(b,k-1),left=(s-lf)/864e5;if(left>0)iv.push([lf,s,left/((addM(b,k)-lf)/864e5)]);
-const yi={};iv.forEach(([,e,sh])=>yi[e.getUTCFullYear()]=(yi[e.getUTCFullYear()]||0)+rent*sh);
+const D1=864e5,P=p.per,yrs=(s-b)/D1/365,inv=pr+reno,iv=[];let k=1;
+while(addM(b,k)<=s){const a=addM(b,k-1),e=addM(b,k);iv.push([a,e,1,(e-a)/D1]);k++}
+const lf=addM(b,k-1),left=(s-lf)/D1,ml=(addM(b,k)-lf)/D1;if(left>0)iv.push([lf,s,left/ml,ml]);
+// доход месяца: по таблице периодов — аренда каждого периода пропорционально дням внутри месяца (дни без периода = простой), иначе постоянная аренда
+const inc=([a,e,sh,m])=>!P?rent*sh:P.reduce((t,[ps,pe,r])=>{const d=(Math.min(e,pe.getTime()+D1)-Math.max(a,ps))/D1;return t+(d>0?r*d/m:0)},0);
+const ic=iv.map(inc),yi={};iv.forEach(([,e],i)=>yi[e.getUTCFullYear()]=(yi[e.getUTCFullYear()]||0)+ic[i]);
 const eff=y=>!rtax?0:rtax==6?.06:(yi[y]>0?prog(yi[y])/yi[y]:0);
-const fl=[[b,-inv]];iv.forEach(([,e,sh])=>fl.push([e,rent*sh*(1-eff(e.getUTCFullYear()))-ut*sh]));
+const pm=(p.ptax||0)/12,fl=[[b,-inv]];iv.forEach(([,e,sh],i)=>fl.push([e,ic[i]*(1-eff(e.getUTCFullYear()))-ut*sh-pm*sh]));
+const avg=ic.reduce((t,x)=>t+x,0)/iv.reduce((t,x)=>t+x[2],0),occ=P?P.reduce((t,[ps,pe,r])=>r>0?t+Math.max(0,(Math.min(s,pe.getTime()+D1)-Math.max(b,ps))/D1):t,0)/((s-b)/D1)*100:null,fr=P&&P[0][2],ls=P&&P[P.length-1][2];
 let st=0;if(sale&&s<addM(b,12*sale)){const base=Math.max(0,cur-Math.max(1e6,pr));st=Math.min(base,2.4e6)*.13+Math.max(0,base-2.4e6)*.15}
 fl.push([s,cur-st]);const nom=met(fl,inv,yrs,cur);let real=null,infl=null;
 if(p.inf){const bp=price(b),r=fl.map(([d,a])=>[d,a*bp/price(d)]);real=met(r,inv,yrs,cur*bp/price(s));const f=price(s)/bp;infl=[(f-1)*100,(Math.pow(f,1/yrs)-1)*100]}
-return{inv,yrs,nom,real,infl,st,yb:(rent-ut)*12/inv*100,yn:(rent-ut)*12/cur*100,b,s}}
+let mo=null,sc=null;const loan=p.mort?pr-p.mort.down:0,bp=p.inf?price(b):1,sm=f=>f.reduce((t,x)=>t+x[1],0);
+if(p.mort){const m=p.mort;sc=mort(loan,m.rate,m.yrs,m.kind,m.ins,b,s)}
+// потоки собственных денег: без ипотеки — обычные; с ипотекой — взнос + ремонт, платежи по кредиту, продажа минус остаток долга
+const own=sc?fl.map(([d,a],i)=>i==0?[d,-(inv-loan)]:i==fl.length-1?[d,a-sc.off]:[d,a-(sc.pay.get(d.getTime())||0)]):fl,ro=p.inf?own.map(([d,a])=>[d,a*bp/price(d)]):null;
+if(sc)mo={loan,first:sc.first,it:sc.it,off:sc.off,eq:inv-loan,p:sm(own),i:irr(own),dp:.13*Math.min(pr,2e6),di:.13*Math.min(sc.it,3e6),rp:ro&&sm(ro),ri:ro&&irr(ro)};
+// сравнение с вкладом: те же собственные деньги, ежемесячная капитализация; налог на проценты — по календарным годам
+let dep=null;if(p.dep){const eq=inv-loan,rr=p.dep.rate/1200,by={};let bal=eq;iv.forEach(([,e,sh])=>{const x=bal*rr*sh;bal+=x;by[e.getUTCFullYear()]=(by[e.getUTCFullYear()]||0)+x});
+let tax=0;if(p.dep.tax)for(const y in by){if(y<2023)continue;const lim=y<2025?5e6:2.4e6,bs=Math.max(0,by[y]-1e6*(KR[y]||14)/100);tax+=Math.min(bs,lim)*.13+Math.max(0,bs-lim)*.15}
+const pf=bal-eq-tax,fin=eq+pf,f=p.inf?price(s)/bp:1,cg=x=>x>0?(Math.pow(x/eq,1/yrs)-1)*100:null;
+dep={pf,tax,cg:cg(fin),rpf:fin/f-eq,rcg:cg(fin/f),op:sm(own),rop:ro&&sm(ro)}}
+const cfd=a=>({mid:a.slice(1,-1).map(x=>x[1]),st:a[0][1],en:a[a.length-1][1]});
+return{inv,yrs,nom,real,infl,st,avg,occ,mo,dep,cf:{n:cfd(own),r:ro&&cfd(ro)},me:iv.reduce((t,x)=>t+x[2],0),pt:pm*iv.reduce((t,x)=>t+x[2],0),yb:((p.rb||fr||avg)-ut)*12/inv*100,yn:((p.rw||ls||avg)-ut)*12/cur*100,b,s}}
 </script>
 <script>
 const $=id=>document.getElementById(id),num=id=>parseInt($(id).value.replace(/\s/g,""))||0,dt=id=>new Date($(id).value+"T00:00:00Z");
-document.querySelectorAll(".m").forEach(e=>e.addEventListener("input",()=>{e.value=e.value.replace(/\D/g,"").replace(/\B(?=(\d{3})+(?!\d))/g," ")}));
+document.addEventListener("input",ev=>{const e=ev.target;if(e.classList&&e.classList.contains("m"))e.value=e.value.replace(/\D/g,"").replace(/\B(?=(\d{3})+(?!\d))/g," ")});
+document.querySelectorAll(".tb").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tb,.tp").forEach(x=>x.classList.remove("on"));b.classList.add("on");$(b.dataset.t).classList.add("on")});
+$("md").onchange=()=>{const p=$("md").value=="p";$("pt").style.display=p?"":"none";$("sg").style.display=p?"none":""};
+function addRow(s,e,r){const d=document.createElement("div");d.className="pr1";d.innerHTML=`<input type="date" value="${s}"><input type="date" value="${e}"><div class="rr"><input class="m" inputmode="numeric" placeholder="Аренда, р. в месяц" value="${r}"><b class="x" title="Удалить период">✕</b></div>`;$("rows").appendChild(d)}
+document.addEventListener("click",ev=>{if(ev.target.classList&&ev.target.classList.contains("x")){const rs=document.querySelectorAll(".pr1"),r=ev.target.closest(".pr1");if(rs.length>1)r.remove();else r.querySelectorAll("input").forEach(i=>i.value="");done&&go()}});
+const sg=v=>(v>0?"+":"")+rub(v);
+function chart(r){const c=$("ch"),g=c.getContext("2d"),dpr=window.devicePixelRatio||1,W=c.clientWidth||620,H=340,S=getComputedStyle(document.documentElement),v=k=>S.getPropertyValue(k).trim(),d=r.cf.r&&$("cm").value=="r"?r.cf.r:r.cf.n,{n,py,cum}=yser(d);
+const L=72,R=12,pw=W-L-R,sh=a=>{const m=Math.abs(a);return(a<0?"−":"")+(m>=1e6?(m/1e6).toFixed(1).replace(".",",")+" млн":m>=1e3?Math.round(m/1e3)+" тыс":Math.round(m))};
+c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);window.LR=r;g.font="12px system-ui,sans-serif";
+const panel=(vals,top,h,title)=>{const lo=Math.min(0,...vals),hi=Math.max(0,...vals),Y=a=>top+h-(a-lo)/((hi-lo)||1)*h;g.fillStyle=v("--mu");g.textAlign="left";g.fillText(title,L,top-14);g.textAlign="right";[hi,0,lo].forEach((a,i)=>{if(i<2||lo<0)g.fillText(sh(a),L-6,Y(a)+4)});g.strokeStyle=v("--bd");g.beginPath();g.moveTo(L,Math.round(Y(0))+.5);g.lineTo(W-R,Math.round(Y(0))+.5);g.stroke();return Y};
+const Y1=panel(py.slice(1),36,90,"Доход за год без покупки и продажи, р."),sl=pw/n;
+py.slice(1).forEach((a,i)=>{const x=L+i*sl+sl*.2;g.fillStyle=a>=0?v("--ac"):"#b45309";g.fillRect(x,Math.min(Y1(a),Y1(0)),sl*.6,Math.abs(Y1(a)-Y1(0))||1);if(n<=10){g.fillStyle=v("--tx");g.textAlign="center";g.fillText(sh(a),x+sl*.3,a>=0?Y1(a)-4:Y1(a)+14)}});
+const Y2=panel(cum,190,110,"Накопленный итог: покупка, аренда, продажа, р.");g.strokeStyle=v("--ac");g.lineWidth=2;g.beginPath();cum.forEach((a,i)=>{const x=L+i*pw/n;i?g.lineTo(x,Y2(a)):g.moveTo(x,Y2(a))});g.stroke();g.lineWidth=1;
+g.fillStyle=v("--tx");g.textAlign="left";g.fillText(sh(cum[0]),L+4,Y2(cum[0])-8);g.textAlign="right";g.fillText(sh(cum[n]),W-R,Y2(cum[n])-8);
+g.fillStyle=v("--mu");g.textAlign="center";for(let i=0;i<=n;i+=Math.max(1,Math.round(n/10)))g.fillText(i,L+i*pw/n,H-6);
+const avg=py.slice(1).reduce((t,a)=>t+a,0)/(r.me/12);
+$("cn").textContent="Денежный поток — сколько денег реально пришло и ушло за год. Сверху: доход за год без покупки и продажи (синий — плюс, оранжевый — минус). Снизу: накопленный итог — в плюсе или в минусе вы на конец года; в начале провал на сумму вложений, в конце скачок от продажи. "+(avg>0&&d.st<0?`Только за счёт аренды вложения вернулись бы за ${(-d.st/avg).toFixed(1).replace(".",",")} лет.`:"Аренда после расходов не приносит дохода — вложения возвращаются только при продаже.")}
+function readDep(){const r=parseFloat($("dr").value.replace(",","."))||0;if(r<0||r>100)throw Error("Ставка вклада: от 0 до 100 %");return{rate:r,tax:$("dtx").checked}}
+// расшифровка IRR: денежные потоки и «ступени» доходности (рост стоимости → аренда → реинвестирование аренды)
+function irrHtml(r){const M=[["Номинально",r.nom]];if(r.real)M.push(["С учётом инфляции",r.real]);const two=M.length>1,tx=r.st>0,mo=Math.round(r.me);
+const cell=(f)=>M.map(([,m])=>`<td>${f(m)}</td>`).join("");
+let h=`<p class="n">IRR — доходность в год на вложенные деньги с учётом того, когда именно они вкладывались и возвращались.${r.mo?" Здесь — доходность самого объекта, без учёта ипотеки.":""}</p>
+<table><tr class="s"><td>ДЕНЕЖНЫЕ ПОТОКИ</td>${M.map(([n])=>`<td>${n}</td>`).join("")}${two?"":"<td></td>"}</tr>
+<tr><td>Покупка и ремонт (в день покупки)</td>${cell(m=>rub(-r.inv))}</tr>
+<tr><td>Аренда за ${mo} мес., в среднем ${rub(r.nom.rent/r.me)} в месяц (после коммунальных и налогов)</td>${cell(m=>sg(m.rent))}</tr>
+<tr><td>Продажа (оценка)${tx?", за вычетом налога":""}</td>${cell(m=>sg(m.fin))}</tr>
+<tr class="b"><td>Итого заработано</td>${cell(m=>sg(m.tp))}</tr></table>`;
+M.forEach(([n,m])=>{const st=[["Рост стоимости",m.gc]];if(tx)st.push(["Налог при продаже",m.gn]);st.push(["+ Аренда (после расходов и налогов)",m.tc],["+ Реинвестирование аренды = IRR",m.irr]);
+const mx=Math.max(...st.map(x=>Math.abs(x[1]||0)))||1;let pv=null;
+h+=`<p class="n" style="margin:14px 0 2px"><b>Ступени доходности, % в год${two?" — "+n.toLowerCase():""}</b></p>`+st.map(([l,v],i)=>{const d=i&&pv!=null&&v!=null?` (${v-pv>=0?"+":"−"}${Math.abs(v-pv).toFixed(2).replace(".",",")}\u00a0п.п.)`:"";pv=v==null?pv:v;
+return`<div class="br"><span>${l}</span><div class="bw"><div class="bb" style="width:${Math.max(2,Math.abs(v||0)/mx*100)}%;${v<0?"background:#b45309":""}${i==st.length-1?";opacity:.8":""}"></div><span>${pc(v)}${d}</span></div></div>`}).join("")});
+return h+`<p class="n" style="margin-top:12px">Рост стоимости — доходность, если бы вы только купили и продали. Аренда добавляет деньги, полученные по ходу владения. IRR выше, потому что учитывает: арендные деньги приходили раньше продажи и могли приносить доход (допущение — под тот же процент). Это оптимистичная оценка.</p>`}
+function readMort(){const f=id=>parseFloat($(id).value.replace(",","."))||0,d=num("dn"),y=num("mt"),r=f("mr");if(d>=num("pr"))throw Error("Первоначальный взнос должен быть меньше стоимости покупки");if(y<1||y>50)throw Error("Срок ипотеки: от 1 до 50 лет");if(r<0||r>100)throw Error("Ставка ипотеки: от 0 до 100 %");return{down:d,rate:r,yrs:y,kind:$("mk").value,ins:f("mi")}}
+function readPer(){const L=[];document.querySelectorAll(".pr1").forEach((d,i)=>{const[s,e,r]=[...d.querySelectorAll("input")].map(x=>x.value);if(!s&&!e&&!r)return;if(!s||!e)throw Error(`Период ${i+1}: укажите обе даты`);const a=new Date(s+"T00:00:00Z"),z=new Date(e+"T00:00:00Z");if(z<a)throw Error(`Период ${i+1}: дата «по» раньше даты «с»`);L.push([a,z,parseInt(r.replace(/\s/g,""))||0,i+1])});
+if(!L.length)throw Error("Добавьте хотя бы один период аренды или выберите «Одной цифрой»");L.sort((x,y)=>x[0]-y[0]);for(let i=1;i<L.length;i++)if(L[i][0]<=L[i-1][1])throw Error(`Периоды ${L[i-1][3]} и ${L[i][3]} пересекаются`);return L.map(x=>x.slice(0,3))}
+[["2016-05-15","2019-05-14","15 000"],["2020-05-15","2023-05-14","22 000"],["2023-05-15","2026-03-24","30 000"]].forEach(a=>addRow(...a));
 const rub=v=>(Math.round(v)<0?"−":"")+Math.abs(Math.round(v)).toLocaleString("ru-RU")+"\u00a0р.",pc=v=>v==null?"—":v.toFixed(2).replace(".",",")+"\u00a0%",pl=(n,a)=>n%100>10&&n%100<15?a[2]:n%10==1?a[0]:n%10>1&&n%10<5?a[1]:a[2];
 function per(b,s){let y=s.getUTCFullYear()-b.getUTCFullYear(),m=s.getUTCMonth()-b.getUTCMonth(),d=s.getUTCDate()-b.getUTCDate();if(d<0){m--;d+=dim(s.getUTCFullYear(),s.getUTCMonth()-1<0?11:s.getUTCMonth()-1)}if(m<0){y--;m+=12}
 return[y&&y+" "+pl(y,["год","года","лет"]),m&&m+" "+pl(m,["месяц","месяца","месяцев"]),d&&d+" "+pl(d,["день","дня","дней"])].filter(Boolean).join(", ")||"0 дней"}
 let done=false;
 function go(e){e&&e.preventDefault();$("er").textContent="";try{
-const r=calc({b:dt("bd"),s:dt("sd"),price:num("pr"),reno:num("rn"),cur:num("cv"),rent:num("rt"),ut:num("ut"),inf:$("inf").checked,rtax:$("tx").checked?+$("tr").value:0,sale:$("st").checked?+$("sy").value:0});
+const r=calc({b:dt("bd"),s:dt("sd"),price:num("pr"),reno:num("rn"),cur:num("cv"),rent:num("rt"),ut:num("ut"),ptax:$("pk").checked?num("pa"):0,mort:$("mc").checked?readMort():null,dep:$("dc").checked?readDep():null,per:$("md").value=="p"?readPer():null,rb:num("rb"),rw:num("rw"),inf:$("inf").checked,rtax:$("tx").checked?+$("tr").value:0,sale:$("st").checked?+$("sy").value:0});
 if(!num("pr")||!num("cv")||isNaN(r.yrs))throw Error("Заполните стоимость покупки, актуальную стоимость и даты");
 const N=r.nom,R=r.real,two=!!R,row=(l,k,f,b)=>`<tr${b?' class="b"':""}><td>${l}</td>${two?`<td>${f(N[k])}</td><td>${f(R[k])}</td>`:`<td colspan=2>${f(N[k])}</td>`}</tr>`;
 $("out").innerHTML=`<b>${$("nm").value.replace(/</g,"&lt;")}</b><table><tr><td>Срок владения</td><td colspan=2>${per(r.b,r.s)}</td></tr>
@@ -79,10 +164,20 @@ $("out").innerHTML=`<b>${$("nm").value.replace(/</g,"&lt;")}</b><table><tr><td>�
 <tr class="s"><td>ДОХОДНОСТЬ</td>${two?"<td>Номинально</td><td>С учётом инфляции</td>":"<td colspan=2></td>"}</tr>
 ${row("Коэффициент роста стоимости","growth",v=>"×\u00a0"+v.toFixed(2).replace(".",","))}${row("Доход от аренды","rent",rub)}${row("Прибыль от возможной продажи","profit",rub)}${row("Итого заработано","tp",rub)}
 ${row("Общая доходность за срок","tr",pc)}${row("Рост стоимости в год (CAGR)","gc",pc)}${row("Общая доходность в год (CAGR)","tc",pc,1)}${row("Внутренняя норма доходности (IRR)","irr",pc,1)}
-<tr class="s"><td>АРЕНДА</td><td colspan=2></td></tr><tr><td>Доходность на момент покупки</td><td colspan=2>${pc(r.yb)}\u00a0в\u00a0год</td></tr><tr><td>Доходность на сегодня</td><td colspan=2>${pc(r.yn)}\u00a0в\u00a0год</td></tr>
-${$("st").checked?`<tr><td>НДФЛ при продаже</td><td colspan=2>${rub(r.st)}</td></tr>`:""}</table>
-${two?'<p class="n">«С учётом инфляции» — те же суммы в рублях на дату покупки: реальная доходность за вычетом обесценивания рубля.</p>':""}`;done=true}catch(x){$("er").textContent=x.message}return false}
-document.querySelectorAll("input,select").forEach(e=>e.addEventListener("change",()=>done&&go()));
+<tr class="s"><td>АРЕНДА</td><td colspan=2></td></tr><tr><td>Средневзвешенная аренда в месяц</td><td colspan=2>${rub(r.avg)}</td></tr>${r.occ!=null?`<tr><td>Заполняемость</td><td colspan=2>${pc(r.occ)}</td></tr>`:""}<tr><td>Доходность на момент покупки</td><td colspan=2>${pc(r.yb)}\u00a0в\u00a0год</td></tr><tr><td>Доходность на сегодня</td><td colspan=2>${pc(r.yn)}\u00a0в\u00a0год</td></tr>
+${$("st").checked?`<tr><td>НДФЛ при продаже</td><td colspan=2>${rub(r.st)}</td></tr>`:""}${r.pt>0?`<tr><td>Налог на имущество за весь срок</td><td colspan=2>${rub(r.pt)}</td></tr>`:""}${r.mo?`<tr class="s"><td>ИПОТЕКА</td>${two?"<td>Номинально</td><td>С учётом инфляции</td>":"<td colspan=2></td>"}</tr>
+<tr><td>Сумма кредита</td><td colspan=2>${rub(r.mo.loan)}</td></tr><tr><td>Платёж в месяц (первый)</td><td colspan=2>${rub(r.mo.first)}</td></tr>
+<tr><td>Проценты за срок владения</td><td colspan=2>${rub(r.mo.it)}</td></tr><tr><td>Остаток долга при продаже</td><td colspan=2>${rub(r.mo.off)}</td></tr><tr><td>Собственные вложения</td><td colspan=2>${rub(r.mo.eq)}</td></tr>
+<tr><td>Прибыль на собственные деньги</td>${two?`<td>${rub(r.mo.p)}</td><td>${rub(r.mo.rp)}</td>`:`<td colspan=2>${rub(r.mo.p)}</td>`}</tr>
+<tr class="b"><td>IRR на собственные деньги</td>${two?`<td>${pc(r.mo.i)}</td><td>${pc(r.mo.ri)}</td>`:`<td colspan=2>${pc(r.mo.i)}</td>`}</tr>
+<tr><td>Возможный налоговый вычет</td><td colspan=2>${rub(r.mo.dp+r.mo.di)}</td></tr>`:""}${r.dep?`<tr class="s"><td>СРАВНЕНИЕ С ВКЛАДОМ</td>${two?"<td>Номинально</td><td>С учётом инфляции</td>":"<td colspan=2></td>"}</tr>
+<tr><td>Вклад: доходность в год</td>${two?`<td>${pc(r.dep.cg)}</td><td>${pc(r.dep.rcg)}</td>`:`<td colspan=2>${pc(r.dep.cg)}</td>`}</tr>
+<tr><td>Вклад: прибыль за срок</td>${two?`<td>${rub(r.dep.pf)}</td><td>${rub(r.dep.rpf)}</td>`:`<td colspan=2>${rub(r.dep.pf)}</td>`}</tr>
+<tr><td>Недвижимость: прибыль за срок</td>${two?`<td>${rub(r.dep.op)}</td><td>${rub(r.dep.rop)}</td>`:`<td colspan=2>${rub(r.dep.op)}</td>`}</tr>
+<tr class="b"><td>Разница в пользу недвижимости</td>${two?`<td>${sg(r.dep.op-r.dep.pf)}</td><td>${sg(r.dep.rop-r.dep.rpf)}</td>`:`<td colspan=2>${sg(r.dep.op-r.dep.pf)}</td>`}</tr>`:""}</table>${r.mo?'<p class="n">Основные показатели выше — по объекту без ипотеки. Налоговый вычет (возврат НДФЛ: до 260 тыс. р. за покупку и до 390 тыс. р. за проценты) в доходность не входит и зависит от вашего НДФЛ.</p>':""}
+${two?'<p class="n">«С учётом инфляции» — те же суммы в рублях на дату покупки: реальная доходность за вычетом обесценивания рубля.</p>':""}`;$("chd").style.display="";$("cm").style.display=R?"":"none";if(!R)$("cm").value="n";chart(r);$("ib").style.display="";$("ibb").innerHTML=irrHtml(r);done=true}catch(x){$("er").textContent=x.message}return false}
+document.addEventListener("change",()=>done&&go());
+addEventListener("resize",()=>window.LR&&chart(window.LR));
 $("dl").textContent=lastLabel();
 fetch("data/inflation.json",{cache:"no-cache"}).then(r=>r.json()).then(j=>{if(setData(j)){$("dl").textContent=lastLabel();done&&go()}}).catch(()=>{});
 go();
