@@ -1,25 +1,34 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
 <title>Доходность недвижимости</title>
 <style>
-:root{--bg:#f3f4f6;--card:#fff;--tx:#1f2937;--mu:#6b7280;--bd:#d1d5db;--ac:#3f6aa0;--ad:#f9fafb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111827;--card:#1f2937;--tx:#f3f4f6;--mu:#9ca3af;--bd:#374151;--ac:#7fa6d6;--ad:#18202e;color-scheme:dark}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,"Segoe UI",sans-serif}
-main{max-width:1000px;margin:0 auto;padding:16px}h1{font-size:22px;margin:8px 0 14px}
-.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
-.c{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px}
+/* По умолчанию — тёмная синяя тема на любом устройстве; светлая включается кнопкой и запоминается */
+:root{--bg:#111827;--card:#1f2937;--tx:#f3f4f6;--mu:#9ca3af;--bd:#374151;--ac:#7fa6d6;color-scheme:dark;box-sizing:border-box;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root[data-theme=light]{--bg:#f3f4f6;--card:#fff;--tx:#1f2937;--mu:#6b7280;--bd:#d1d5db;--ac:#3f6aa0;color-scheme:light}
+*{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:6px 0 12px}h1{font-size:21px;margin:0}
+.th{margin:0;padding:6px 12px;font-size:13px;font-weight:600;background:none;border:1px solid var(--bd);color:var(--mu);border-radius:16px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:12px}.g>*{min-width:0}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;overflow-x:auto}
 label{display:block;font-size:13px;color:var(--mu);margin:10px 0 3px}
-input,select{width:100%;padding:9px;border:1px solid var(--bd);border-radius:6px;background:var(--card);color:var(--tx);font:inherit}
-input:focus{outline:2px solid var(--ac)}.r{display:flex;gap:8px;align-items:center;margin-top:10px}.r input{width:auto}
-button{margin-top:14px;padding:10px 20px;border:0;border-radius:6px;background:var(--ac);color:#fff;font:inherit;font-weight:600;cursor:pointer}
-table{width:100%;border-collapse:collapse}td,th{padding:5px 0 5px 12px;text-align:right;vertical-align:baseline;font-variant-numeric:tabular-nums}td:first-child,th:first-child{text-align:left;padding-left:0}td+td,th+th{white-space:nowrap}
+input,select{width:100%;min-width:0;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font:inherit;font-size:16px}
+input[type=date]{min-height:42px;-webkit-appearance:none;appearance:none;text-align:left}
+input[type=checkbox]{width:20px;height:20px;flex:none;accent-color:var(--ac)}
+input:focus,select:focus{outline:2px solid var(--ac)}.r{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}.r input:not([type=checkbox]){width:auto}
+button{margin-top:14px;padding:11px 20px;border:0;border-radius:8px;background:var(--ac);color:#111827;font:inherit;font-weight:700;cursor:pointer}
+:root[data-theme=light] button{color:#fff}
+table{width:100%;border-collapse:collapse}td,th{padding:5px 0 5px 12px;text-align:right;vertical-align:baseline;font-variant-numeric:tabular-nums}td:first-child,th:first-child{text-align:left;padding-left:0;overflow-wrap:anywhere}td+td,th+th{white-space:nowrap}
 th{font-weight:400;font-size:12px;color:var(--mu)}tr.b td{font-weight:700;color:var(--ac)}tr.s td{padding-top:12px;font-size:12px;color:var(--ac);border-bottom:1px solid var(--bd)}
-small,.n{color:var(--mu);font-size:12px}.e{color:#b45309}
-.br{display:grid;grid-template-columns:minmax(120px,38%) 1fr;gap:8px;align-items:center;margin:6px 0;font-size:13px}.bw{display:flex;align-items:center;gap:8px}.bw .bb{flex:none;max-width:55%}.bb{height:14px;background:var(--ac);border-radius:3px}summary{cursor:pointer}
-.tabs{display:flex;gap:4px;margin:6px 0 2px;border-bottom:1px solid var(--bd)}.tb{margin:0;padding:8px 14px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--mu);font:inherit;font-weight:600;cursor:pointer}.tb.on{color:var(--ac);border-color:var(--ac)}
-.tp{display:none}.tp.on{display:block}.pr1{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 0;border-bottom:1px solid var(--bd)}.rr{grid-column:1/3;display:flex;gap:10px;align-items:center}.x{cursor:pointer;color:var(--mu);padding:0 4px}.lk{background:none;color:var(--ac);padding:6px 0;margin-top:6px}
+small,.n{color:var(--mu);font-size:12px}.e{color:#fb923c}:root[data-theme=light] .e{color:#b45309}
+.br{display:grid;grid-template-columns:minmax(110px,38%) 1fr;gap:8px;align-items:center;margin:6px 0;font-size:13px}.bw{display:flex;align-items:center;gap:8px}.bw .bb{flex:none;max-width:55%}.bb{height:14px;background:var(--ac);border-radius:3px}summary{cursor:pointer}canvas{max-width:100%}
+.tabs{display:flex;flex-wrap:wrap;gap:0 2px;margin:6px 0 2px;border-bottom:1px solid var(--bd)}.tb{margin:0;padding:9px 11px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--mu);font:inherit;font-weight:600;cursor:pointer}.tb.on{color:var(--ac);border-color:var(--ac)}
+.tp{display:none}.tp.on{display:block}.pr1{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 0;border-bottom:1px solid var(--bd)}.pr1 input{min-width:0}.rr{grid-column:1/3;display:flex;gap:10px;align-items:center}.x{cursor:pointer;color:var(--mu);padding:6px 8px}.lk{background:none;color:var(--ac);padding:6px 0;margin-top:6px}
+@media(max-width:560px){.c{padding:12px}table{font-size:13px}td,th{padding-left:6px}.tb{padding:9px 9px;font-size:14px}}
 </style></head><body><main>
-<h1>Доходность недвижимости</h1>
+<div class="hd"><h1>Доходность недвижимости</h1><button type="button" class="th" id="th"></button></div>
 <div class="g"><form class="c" id="f" onsubmit="return go(event)">
 <p class="n" style="margin:0 0 4px">Поля заполнены примером — замените своими данными.</p>
 <div class="tabs"><button type="button" class="tb on" data-t="t1">Объект</button><button type="button" class="tb" data-t="t2">Аренда</button><button type="button" class="tb" data-t="t3">Налоги</button><button type="button" class="tb" data-t="t4">Ипотека</button><button type="button" class="tb" data-t="t5">Вклад</button></div>
@@ -125,9 +134,9 @@ function chart(r){const c=$("ch"),g=c.getContext("2d"),dpr=window.devicePixelRat
 const L=72,R=12,pw=W-L-R,sh=a=>{const m=Math.abs(a);return(a<0?"−":"")+(m>=1e6?(m/1e6).toFixed(1).replace(".",",")+" млн":m>=1e3?Math.round(m/1e3)+" тыс":Math.round(m))};
 c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);window.LR=r;g.font="12px system-ui,sans-serif";
 const panel=(vals,top,h,title)=>{const lo=Math.min(0,...vals),hi=Math.max(0,...vals),Y=a=>top+h-(a-lo)/((hi-lo)||1)*h;g.fillStyle=v("--mu");g.textAlign="left";g.fillText(title,L,top-14);g.textAlign="right";[hi,0,lo].forEach((a,i)=>{if(i<2||lo<0)g.fillText(sh(a),L-6,Y(a)+4)});g.strokeStyle=v("--bd");g.beginPath();g.moveTo(L,Math.round(Y(0))+.5);g.lineTo(W-R,Math.round(Y(0))+.5);g.stroke();return Y};
-const Y1=panel(py.slice(1),36,90,"Доход за год без покупки и продажи, р."),sl=pw/n;
-py.slice(1).forEach((a,i)=>{const x=L+i*sl+sl*.2;g.fillStyle=a>=0?v("--ac"):"#b45309";g.fillRect(x,Math.min(Y1(a),Y1(0)),sl*.6,Math.abs(Y1(a)-Y1(0))||1);if(n<=10){g.fillStyle=v("--tx");g.textAlign="center";g.fillText(sh(a),x+sl*.3,a>=0?Y1(a)-4:Y1(a)+14)}});
-const Y2=panel(cum,190,110,"Накопленный итог: покупка, аренда, продажа, р.");g.strokeStyle=v("--ac");g.lineWidth=2;g.beginPath();cum.forEach((a,i)=>{const x=L+i*pw/n;i?g.lineTo(x,Y2(a)):g.moveTo(x,Y2(a))});g.stroke();g.lineWidth=1;
+const Y1=panel(py.slice(1),36,90,"Доход за год, р."),sl=pw/n;
+py.slice(1).forEach((a,i)=>{const x=L+i*sl+sl*.2;g.fillStyle=a>=0?v("--ac"):"#b45309";g.fillRect(x,Math.min(Y1(a),Y1(0)),sl*.6,Math.abs(Y1(a)-Y1(0))||1);if(sl>=46){g.fillStyle=v("--tx");g.textAlign="center";g.fillText(sh(a),x+sl*.3,a>=0?Y1(a)-4:Y1(a)+14)}});
+const Y2=panel(cum,190,110,"Накопленный итог, р.");g.strokeStyle=v("--ac");g.lineWidth=2;g.beginPath();cum.forEach((a,i)=>{const x=L+i*pw/n;i?g.lineTo(x,Y2(a)):g.moveTo(x,Y2(a))});g.stroke();g.lineWidth=1;
 g.fillStyle=v("--tx");g.textAlign="left";g.fillText(sh(cum[0]),L+4,Y2(cum[0])-8);g.textAlign="right";g.fillText(sh(cum[n]),W-R,Y2(cum[n])-8);
 g.fillStyle=v("--mu");g.textAlign="center";for(let i=0;i<=n;i+=Math.max(1,Math.round(n/10)))g.fillText(i,L+i*pw/n,H-6);
 const avg=py.slice(1).reduce((t,a)=>t+a,0)/(r.me/12);
@@ -154,6 +163,8 @@ if(!L.length)throw Error("Добавьте хотя бы один период �
 const rub=v=>(Math.round(v)<0?"−":"")+Math.abs(Math.round(v)).toLocaleString("ru-RU")+"\u00a0р.",pc=v=>v==null?"—":v.toFixed(2).replace(".",",")+"\u00a0%",pl=(n,a)=>n%100>10&&n%100<15?a[2]:n%10==1?a[0]:n%10>1&&n%10<5?a[1]:a[2];
 function per(b,s){let y=s.getUTCFullYear()-b.getUTCFullYear(),m=s.getUTCMonth()-b.getUTCMonth(),d=s.getUTCDate()-b.getUTCDate();if(d<0){m--;d+=dim(s.getUTCFullYear(),s.getUTCMonth()-1<0?11:s.getUTCMonth()-1)}if(m<0){y--;m+=12}
 return[y&&y+" "+pl(y,["год","года","лет"]),m&&m+" "+pl(m,["месяц","месяца","месяцев"]),d&&d+" "+pl(d,["день","дня","дней"])].filter(Boolean).join(", ")||"0 дней"}
+(function(){let t;try{t=localStorage.getItem("th")}catch(e){}if(t=="light")document.documentElement.dataset.theme="light";const b=$("th"),sync=()=>b.textContent=document.documentElement.dataset.theme=="light"?"Тёмная тема":"Светлая тема";sync();
+b.onclick=()=>{const l=document.documentElement.dataset.theme!="light";document.documentElement.dataset.theme=l?"light":"dark";try{localStorage.setItem("th",l?"light":"dark")}catch(e){}sync();window.LR&&chart(window.LR)}})();
 let done=false;
 function go(e){e&&e.preventDefault();$("er").textContent="";try{
 const r=calc({b:dt("bd"),s:dt("sd"),price:num("pr"),reno:num("rn"),cur:num("cv"),rent:num("rt"),ut:num("ut"),ptax:$("pk").checked?num("pa"):0,mort:$("mc").checked?readMort():null,dep:$("dc").checked?readDep():null,per:$("md").value=="p"?readPer():null,rb:num("rb"),rw:num("rw"),inf:$("inf").checked,rtax:$("tx").checked?+$("tr").value:0,sale:$("st").checked?+$("sy").value:0});
