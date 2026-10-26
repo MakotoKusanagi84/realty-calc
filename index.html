@@ -1,6 +1,9 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111827">
+<meta name="description" content="Калькулятор доходности недвижимости: аренда и продажа, простои, инфляция России с 1991 года, налоги, ипотека, сравнение с вкладом, IRR и CAGR.">
+<meta property="og:title" content="Калькулятор доходности недвижимости">
+<meta property="og:description" content="Реальная доходность квартиры с учётом инфляции, налогов, ипотеки и простоев. Сравнение с вкладом.">
 <title>Доходность недвижимости</title>
 <style>
 /* По умолчанию — тёмная синяя тема на любом устройстве; светлая включается кнопкой и запоминается */
@@ -143,9 +146,9 @@ const L=72,R=12,pw=W-L-R,sl=pw/n,sh=a=>{const m=Math.abs(a);return(a<0?"−":"")
 window.CH={L,sl,n};if(window.SEL>n)window.SEL=null;g.font="12px system-ui,sans-serif";
 if(window.SEL){g.globalAlpha=.13;g.fillStyle=v("--ac");g.fillRect(L+(window.SEL-1)*sl,28,sl,H-38);g.globalAlpha=1}
 const panel=(vals,top,h,title)=>{const lo=Math.min(0,...vals),hi=Math.max(0,...vals),Y=a=>top+h-(a-lo)/((hi-lo)||1)*h;g.fillStyle=v("--mu");g.textAlign="left";g.fillText(title,L,top-14);g.textAlign="right";[hi,lo,0].forEach(a=>{if(a===lo&&lo>=0&&a!==0)return;if(a===0&&((hi>0&&Y(0)-Y(hi)<16)||(lo<0&&Y(lo)-Y(0)<16)))return;g.fillText(sh(a),L-6,Y(a)+4)});g.strokeStyle=v("--bd");g.beginPath();g.moveTo(L,Math.round(Y(0))+.5);g.lineTo(W-R,Math.round(Y(0))+.5);g.stroke();return Y};
-const Y1=panel(py.slice(1),36,100,"Доход за год, р. (подписи — год окончания)");
+const Y1=panel(py.slice(1),36,100,"Доход за год, р.");
 py.slice(1).forEach((a,i)=>{const x=L+i*sl+sl*.2;g.fillStyle=a>=0?v("--ac"):"#b45309";g.fillRect(x,Math.min(Y1(a),Y1(0)),sl*.6,Math.abs(Y1(a)-Y1(0))||1);if(sl>=46){g.fillStyle=v("--tx");g.textAlign="center";g.fillText(sh(a),x+sl*.3,a>=0?Y1(a)-4:Y1(a)+14)}
-if((i+1)%kk==0||i==0){g.fillStyle=v("--mu");g.textAlign="center";g.fillText(yl(i+1),L+i*sl+sl/2,152)}});
+if((i+1)%kk==0||i==0){g.fillStyle=v("--mu");g.textAlign="center";g.fillText(yl(i+1),L+i*sl+sl/2,170)}});
 const all=dp?cp.concat(dp):cp,Y2=panel(all,206,150,"Капитал на конец года, р."),line=(a,col,dash)=>{g.strokeStyle=col;g.lineWidth=2;g.setLineDash(dash);g.beginPath();a.forEach((x,i)=>{const px=L+i*sl;i?g.lineTo(px,Y2(x)):g.moveTo(px,Y2(x))});g.stroke();g.setLineDash([]);g.lineWidth=1};
 if(dp)line(dp,OR,[5,4]);line(cp,v("--ac"),[]);
 g.fillStyle=v("--tx");g.textAlign="left";g.fillText(sh(cp[0]),L+4,Y2(cp[0])-8);g.textAlign="right";g.fillText(sh(cp[n]),W-R,Y2(cp[n])-8);if(dp)g.fillText(sh(dp[n]),W-R,Y2(dp[n])+(dp[n]<cp[n]?16:-8));
@@ -153,7 +156,7 @@ g.fillStyle=v("--mu");g.textAlign="center";for(let i=0;i<=n;i+=kk)g.fillText(yl(
 $("cl").innerHTML=`<span style="color:var(--ac)">━ Недвижимость</span>${dp?` &nbsp; <span style="color:${OR}">┅ Вклад</span>`:""}`;
 const j=window.SEL;$("ct").textContent=j?`${T[j].getUTCFullYear()} год (год владения №${j}): доход за год ${rub(py[j])}; капитал — недвижимость ${rub(cp[j])}${dp?`, вклад ${rub(dp[j])}`:""}`:"Нажмите на график — появятся цифры за выбранный год.";
 const avg=py.slice(1).reduce((t,a)=>t+a,0)/(r.me/12);
-$("cn").textContent="Сверху: доход за год без покупки и продажи (синий — плюс, оранжевый — минус). Снизу: ваш капитал на конец каждого года — стоимость квартиры (цена растёт равномерно) минус долг по ипотеке плюс накопленный доход; пунктиром — те же деньги на вкладе (включите «Сравнить с вкладом»). Последняя точка — итог расчёта с продажей. "+(avg>0&&d.st<0?`Только за счёт аренды вложения вернулись бы за ${(-d.st/avg).toFixed(1).replace(".",",")} лет.`:"Аренда после расходов не приносит дохода — вложения возвращаются только при продаже.")}
+$("cn").textContent="Сверху: доход за год без покупки и продажи (синий — плюс, оранжевый — минус); подпись под столбцом — год, которым закончился год владения. Снизу: ваш капитал на конец каждого года — стоимость квартиры (цена растёт равномерно) минус долг по ипотеке плюс накопленный доход; пунктиром — те же деньги на вкладе (включите «Сравнить с вкладом»). Последняя точка — итог расчёта с продажей. "+(avg>0&&d.st<0?`Только за счёт аренды вложения вернулись бы за ${(-d.st/avg).toFixed(1).replace(".",",")} лет.`:"Аренда после расходов не приносит дохода — вложения возвращаются только при продаже.")}
 $("ch").addEventListener("click",ev=>{const r=window.LR;if(!r||!window.CH)return;const x=ev.clientX-$("ch").getBoundingClientRect().left,{L,sl,n}=window.CH;window.SEL=Math.min(n,Math.max(1,Math.floor((x-L)/sl)+1));chart(r)});
 function readDep(){const r=parseFloat($("dr").value.replace(",","."))||0;if(r<0||r>100)throw Error("Ставка вклада: от 0 до 100 %");return{rate:r,tax:$("dtx").checked}}
 // расшифровка IRR: денежные потоки и «ступени» доходности (рост стоимости → аренда → реинвестирование аренды)
