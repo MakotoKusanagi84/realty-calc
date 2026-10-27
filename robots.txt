@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # ЗАМЕНИТЕ адрес ниже на адрес вашего сайта (с https:// и без слова «ВАШ-САЙТ»)
-Sitemap: https://ВАШ-САЙТ/sitemap.xml
+Sitemap: https://https://makotokusanagi84.github.io/realty-calc//sitemap.xml
