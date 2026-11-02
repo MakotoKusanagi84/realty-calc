@@ -8,7 +8,7 @@
 :root[data-theme=light]{--bg:#f3f4f6;--card:#fff;--tx:#1f2937;--mu:#6b7280;--bd:#d1d5db;--ac:#3f6aa0;color-scheme:light}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
 main{max-width:760px;margin:0 auto;padding:max(14px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) 40px max(14px,env(safe-area-inset-left,0px))}
-a{color:var(--ac)}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:6px 0 10px}
+a{color:var(--ac)}.top{display:flex;flex-wrap:wrap;gap:2px 14px;align-items:baseline;margin:6px 0 10px}.top a{white-space:nowrap}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:6px 18px 14px;margin-top:10px}
 h1{font-size:24px;margin:14px 0 4px}h2{font-size:18px;margin:22px 0 6px;color:var(--ac)}p,li{overflow-wrap:anywhere}li{margin:4px 0}
 .n{color:var(--mu);font-size:14px}code{background:var(--bg);border:1px solid var(--bd);border-radius:5px;padding:1px 5px;font-size:14px}.w{border-left:3px solid var(--ac);padding-left:12px;color:var(--mu)}
@@ -44,10 +44,13 @@ h1{font-size:24px;margin:14px 0 4px}h2{font-size:18px;margin:22px 0 6px;color:va
 <p>Собственные деньги кладутся на вклад на тот же срок, проценты капитализируются ежемесячно. Налог на проценты: проценты за 2021–2022 годы налогом не облагались; с 2023 года — 13 % (15 % с части свыше 5 млн р., с 2025 года свыше 2,4 млн р.) с процентов сверх 1 млн р. × наибольшая ключевая ставка года (2023 — 15 %, 2024 и 2025 — 21 %, 2026 — 16 %, дальше принято 14 %).</p>
 <h2>График «Капитал по годам»</h2>
 <p>Капитал на конец года = стоимость квартиры минус долг по ипотеке плюс накопленный доход. Цена между покупкой и актуальной оценкой принимается растущей равномерно — это допущение, реальная траектория была неровной. Последняя точка равна итогу расчёта.</p>
+<h2>Режим «Планирую купить»: сценарии и историческая проверка</h2>
+<p>Три сценария задаются двумя числами — поправками к ожидаемой инфляции π: цена растёт на <code>π + поправка</code>, аренда — на <code>π + половина поправки</code> (аренда колеблется слабее цены). Поправки: пессимистичный −3 п.п., базовый 0, оптимистичный +3 п.п. Это условные значения, а не прогноз: они показывают, что будет, если цена будет отставать от инфляции, расти вровень с ней или обгонять её.</p>
+<p><b>Историческая проверка</b> показывает, как цена вторичного жилья менялась относительно инфляции во всех прошлых периодах заданной длины. Данные: Росстат (ЕМИСС), средняя цена 1 кв. м, вся Россия, с 1 квартала 2000 года по 3 квартал 2026 года. В ряду две смены методики (в 2011 и в 2023 году), поэтому периоды берутся только внутри трёх непрерывных отрезков, а цены переводятся в реальные нашей таблицей инфляции. Это средние цены по стране, а не цена конкретной квартиры; периоды пересекаются; для сроков больше 7 лет периодов слишком мало, и показывается срок 7 лет.</p>
 <h2>Что не учитывается</h2>
 <ul><li>расходы на сделку (риелтор, регистрация), капремонт и текущие ремонты после покупки;</li><li>простои вне таблицы периодов, индексация аренды (задавайте её периодами);</li><li>кадастровая стоимость при налоге с продажи, региональные льготы, особые режимы;</li><li>будущие изменения законов: правила проверены на октябрь 2026 года.</li></ul>
 <h2>Ошибка или неточность?</h2>
-<p>Если вы нашли расхождение с законом или со своим расчётом, напишите: <b>voevalevoevale@gmail.com</b>. Мы проверим и исправим.</p>
+<p>Если вы нашли расхождение с законом или со своим расчётом, напишите: <b>[укажите контактный e-mail]</b>. Мы проверим и исправим.</p>
 </div>
 <p class="n" style="margin-top:16px"><a href="index.html">Калькулятор</a> · <a href="metodika.html">О методике</a> · <a href="privacy.html">Конфиденциальность</a></p>
 <script>fetch("data/inflation.json",{cache:"no-cache"}).then(r=>r.json()).then(j=>{const y=Math.max(...Object.keys(j.monthly).map(Number)),m=j.monthly[y].length,M=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];document.querySelectorAll(".lm").forEach(e=>e.textContent=M[m-1]+" "+y+" г.")}).catch(()=>{});</script>
