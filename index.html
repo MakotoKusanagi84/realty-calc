@@ -34,9 +34,33 @@ small,.n{color:var(--mu);font-size:12px}.e{color:#fb923c}:root[data-theme=light]
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.seg button{margin:0;padding:10px 2px;border:1px solid var(--bd);border-radius:10px;background:none;color:var(--mu);font-weight:600;font-size:13px}.seg button.on{background:var(--ac);border-color:var(--ac);color:#111827}:root[data-theme=light] .seg button.on{color:#fff}
 .tp{display:none}.tp.on{display:block}.pr1{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 0;border-bottom:1px solid var(--bd)}.pr1 input{min-width:0}.rr{grid-column:1/3;display:flex;gap:10px;align-items:center}.x{cursor:pointer;color:var(--mu);padding:6px 8px}.lk{background:none;color:var(--ac);padding:6px 0;margin-top:6px}
 @media(max-width:560px){.c{padding:12px}table{font-size:13px}td,th{padding-left:6px}.tb{padding:10px 2px;font-size:13px}}
+.simple #f,.simple #out,.simple #scn,.simple #hs,.simple #chd,.simple #ib{display:none!important}html:not(.simple) #sf,html:not(.simple) #sv{display:none!important}#sv:empty{display:none}
+.hl{font-size:20px;line-height:1.3}.hl b{color:var(--ac)}.vd{margin:10px 0;padding:10px 12px;border-radius:10px;font-weight:700}.vg{background:rgba(52,211,153,.14);border:1px solid #34d399;color:#34d399}.vy{background:rgba(250,204,21,.12);border:1px solid #facc15;color:#facc15}.vr{background:rgba(248,113,113,.12);border:1px solid #f87171;color:#f87171}
+:root[data-theme=light] .vg{color:#047857}:root[data-theme=light] .vy{color:#a16207}:root[data-theme=light] .vr{color:#b91c1c}
+.b3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.b3>div{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px;font-size:12px;color:var(--mu)}.b3 b{display:block;font-size:17px;margin-top:3px;color:var(--tx)}
+.bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}.bar>span:first-child{flex:none;width:74px}.bar i{display:block;flex:none;height:16px;border-radius:4px;background:var(--ac)}.bar.d i{background:#e5a24a}.adv{padding-left:18px;margin:8px 0}.adv li{margin:6px 0}
+.seg button small{display:block;margin-top:3px;font-size:11px;font-weight:600;opacity:.9}
 </style></head><body><main>
+<script>try{if(localStorage.getItem("vm")!="d")document.documentElement.classList.add("simple")}catch(e){document.documentElement.classList.add("simple")}</script>
 <div class="hd"><h1>Доходность недвижимости</h1><button type="button" class="th" id="th"></button></div>
-<div class="g"><form class="c" id="f" onsubmit="return go(event)">
+<div class="seg" id="vm" style="max-width:340px;margin:0 0 12px;grid-template-columns:repeat(2,1fr)"><button type="button" data-v="s" class="on">Просто</button><button type="button" data-v="d">Подробно</button></div>
+<div class="g"><div class="c" id="sf">
+<p class="n" style="margin:0 0 4px">Поля заполнены примером — замените своими данными.</p>
+<label>Цена квартиры, р.</label><input class="m" id="sp" inputmode="numeric" value="8 000 000">
+<label>Аренда в месяц, р. (с учётом простоев)</label><input class="m" id="sr" inputmode="numeric" value="45 000">
+<label>На сколько лет покупаете</label><input class="m" id="sh" inputmode="numeric" value="10">
+<label>Сценарий</label><div class="seg" id="sseg"></div>
+<details style="margin-top:12px"><summary><b>Дополнительно</b></summary>
+<label>Затраты на ремонт, р.</label><input class="m" id="sn" inputmode="numeric" value="0">
+<label>Ожидаемая инфляция, % в год</label><input id="si" inputmode="decimal" value="6">
+<label>Ставка вклада для сравнения, % годовых</label><input id="sv2" inputmode="decimal" value="14">
+<div class="r"><input type="checkbox" id="stx"><span>Учесть налоги (НДФЛ с аренды 13 % и при продаже)</span></div>
+<div class="r"><input type="checkbox" id="smc"><span>Покупка в ипотеку</span></div>
+<label>Первоначальный взнос, р.</label><input class="m" id="sdn" inputmode="numeric" value="2 400 000">
+<label>Ставка по ипотеке, % годовых</label><input id="smr" inputmode="decimal" value="16">
+<label>Срок ипотеки, лет</label><input class="m" id="smt" inputmode="numeric" value="20"></details>
+<button type="button" id="scalc">Рассчитать</button><p class="e" id="ser"></p></div>
+<form class="c" id="f" onsubmit="return go(event)">
 <p class="n" style="margin:0 0 4px">Поля заполнены примером — замените своими данными.</p>
 <label style="margin-top:4px">Режим</label><select id="mode"><option value="a">Анализ купленной квартиры (по фактическим ценам)</option><option value="p">Планирую купить (прогноз по сценариям)</option></select>
 <div class="tabs"><button type="button" class="tb on" data-t="t1">Объект</button><button type="button" class="tb" data-t="t2">Аренда</button><button type="button" class="tb" data-t="t3">Налоги</button><button type="button" class="tb" data-t="t4">Ипотека</button><button type="button" class="tb" data-t="t5">Вклад</button></div>
@@ -74,7 +98,7 @@ small,.n{color:var(--mu);font-size:12px}.e{color:#fb923c}:root[data-theme=light]
 <div class="r"><input type="checkbox" id="dtx" checked><span>Учитывать налог на проценты (НДФЛ)</span></div>
 <p class="n">Проценты капитализируются ежемесячно. Проценты за 2021–2022 годы налогом не облагались. С 2023 года: 13 % (15 % с части свыше 5 млн р., с 2025 года — свыше 2,4 млн р.) с процентов сверх 1 млн р. × наибольшая ключевая ставка года (2023 — 15 %, 2024 и 2025 — 21 %, 2026 — 16 %, дальше принято 14 %).</p></div>
 <button>Рассчитать</button><p class="e" id="er"></p></form>
-<div class="c" id="out"><span class="n">Заполните данные и нажмите «Рассчитать».</span></div></div>
+<div class="c" id="out"><span class="n">Заполните данные и нажмите «Рассчитать».</span></div><div class="c" id="sv"></div></div>
 <div class="c" id="scn" style="display:none;margin-top:14px"></div>
 <div class="c" id="hs" style="display:none;margin-top:14px"></div>
 <div class="c" id="chd" style="display:none;margin-top:14px"><div class="r" style="justify-content:space-between;margin:0"><b>Денежные потоки по годам</b><select id="cm" style="width:auto"><option value="n">Номинально</option><option value="r">С учётом инфляции</option></select></div><canvas id="ch" width="620" height="390" style="width:100%;height:390px;margin-top:6px;cursor:pointer"></canvas><p class="n" id="cl" style="margin:6px 0 0"></p><p id="ct" style="margin:6px 0;font-size:13px"></p><p class="n" id="cn"></p></div>
@@ -162,12 +186,40 @@ const HQ=[[2000,[5910,5955,6104,6590,7301,7724,8291,9072,9795,10487,11052,11557,
 function hist(N,from){const o=[];HQ.forEach(([y0,a])=>{for(let i=0;i+4*N<a.length;i++){if(y0+Math.floor(i/4)<from)continue;const d=k=>new Date(Date.UTC(y0+Math.floor(k/4),(k%4)*3+1,15));o.push(Math.pow(a[i+4*N]/a[i]*price(d(i))/price(d(i+4*N)),1/N)-1)}});return o}
 function pct(a,p){const s=[...a].sort((x,y)=>x-y),i=(s.length-1)*p,l=Math.floor(i);return s[l]+(s[Math.min(l+1,s.length-1)]-s[l])*(i-l)}
 function histHtml(on){const c=$("hs");if(!on){c.style.display="none";return}const N=Math.min(Math.round(num("hz")),7),T=N<Math.round(num("hz"));
-const row=(l,a)=>a.length<8?"":`<tr><td>${l} (${a.length} пер.)</td><td>${s1(pct(a,.5)*100)}</td><td>${s1(pct(a,.25)*100)} … ${s1(pct(a,.75)*100)}</td><td>${Math.round(a.filter(x=>x>0).length/a.length*100)} %</td></tr>`,s1=x=>(x>0?"+":x<0?"−":"")+Math.abs(x).toFixed(1).replace(".",",")+"\u00a0%";
-const h=row("С 2000 года",hist(N,2000))+row("Только с 2011 года",hist(N,2011));
+const s1=x=>Math.abs(x).toFixed(1).replace(".",",")+"\u00a0п.п.",row=(l,a)=>{if(a.length<8)return"";const m=pct(a,.5)*100,w=Math.round(a.filter(x=>x>0).length/a.length*100);return`<p style="margin:10px 0 0"><b>${l}:</b> обычно цена ${m>=0?"обгоняла инфляцию":"отставала от инфляции"} на ${s1(m)} в год; быстрее инфляции она росла в ${w} % периодов.</p>`};
+const h=row("С 2000 года",hist(N,2000))+row("С 2011 года",hist(N,2011));
 if(!h){c.style.display="none";return}c.style.display="";
-c.innerHTML=`<b>Историческая проверка</b><p class="n">Как менялась цена вторичного жилья в России относительно инфляции: все прошлые периоды длиной ${N} ${N==1?"год":N<5?"года":"лет"}${T?" (для вашего срока слишком мало длинных периодов)":""}. Реальный рост — в год, сверх инфляции.</p>
-<table><tr class="s"><td>Период истории</td><td>Медиана</td><td>Хуже 25 % … лучше 25 %</td><td>Цена обгоняла инфляцию</td></tr>${h}</table>
-<p class="n">Данные: Росстат (средняя цена за 1 кв. м, вторичный рынок, вся Россия). Это средние цены, а не цена одной квартиры; периоды пересекаются; прошлое не гарантирует будущее. Результат сильно зависит от эпохи: до 2011 года цены росли быстрее инфляции, после — заметно медленнее.</p>`}
+c.innerHTML=`<b>Что было раньше</b><p class="n" style="margin:4px 0 0">Как цена жилья в России соотносилась с инфляцией за любые ${N} ${N==1?"год":N<5?"года":"лет"} подряд${T?" (для вашего срока длинных периодов мало)":""}.</p>${h}<p class="n" style="margin-top:10px">Росстат, вторичный рынок, вся Россия: средние цены, прошлое не гарантирует будущее.</p>`}
+
+// ---- простой режим: три поля, цветной вывод, сравнение с вкладом; подробный расчёт — по кнопке «Подробно» ----
+const shm=a=>{const m=Math.abs(a);return(a<0?"−":"")+(m>=1e6?(m/1e6).toFixed(1).replace(".",",")+"\u00a0млн":m>=1e3?Math.round(m/1e3)+"\u00a0тыс":Math.round(m))},yw=T=>T%100>10&&T%100<15?"лет":T%10==1?"год":T%10>1&&T%10<5?"года":"лет",isSimple=()=>document.documentElement.classList.contains("simple");
+// переносим значения простой формы в настоящие поля (режим «Планирую купить») — дальше работает обычный расчёт
+function syncSimple(){const v=i=>$(i).value,md=$("mode");md.value="p";if(md.onchange)md.onchange();
+$("pr").value=v("sp");$("rt").value=v("sr");$("hz").value=v("sh");$("rn").value=v("sn")||"0";$("pi").value=v("si");$("ut").value="0";$("pk").checked=false;
+$("dc").checked=true;$("dr").value=v("sv2");$("dtx").checked=true;$("inf").checked=true;$("tx").checked=$("st").checked=$("stx").checked;$("tr").value="13";$("sy").value="5";
+$("mc").checked=$("smc").checked;$("dn").value=v("sdn");$("mr").value=v("smr");$("mt").value=v("smt");$("mk").value="a";$("mi").value="0";syncTabs()}
+function svHtml(r,rs){const c=$("sv"),sb=$("sseg");if(!isSimple()||!rs||!r.dep)return;
+const O=x=>x.mo?{p:x.mo.p,i:x.mo.i,rp:x.mo.rp,eq:x.mo.eq}:{p:x.nom.tp,i:x.nom.irr,rp:x.real&&x.real.tp,eq:x.inv},o=O(r),T=Math.round(num("hz")),dif=o.p-r.dep.pf,thr=.05*o.eq,
+vd=dif>thr?["vg","Лучше вклада на "+rub(dif)]:dif<-thr?["vr","Вклад выгоднее на "+rub(-dif)]:["vy","Примерно как вклад: разница "+rub(Math.abs(dif))],
+py=yser(r.cf.n).py,avg=py.slice(1).reduce((t,a)=>t+a,0)/(r.me/12),pb=avg>0&&o.eq>0?o.eq/avg:null,f1=x=>x.toFixed(1).replace(".",","),S=SCN[SK-1],pi=pif(),dr=parseFloat($("dr").value.replace(",","."))||0,
+cap=o.eq+o.p,dc=o.eq+r.dep.pf,mx=Math.max(cap,dc,1),bw=v=>Math.max(2,Math.max(v,0)/mx*52);
+const adv=[`В сценарии «${S.n}» цена растёт на ${f1(pi+S.ps)} % в год — ${S.ps>0?"быстрее инфляции":S.ps<0?"медленнее инфляции":"вровень с инфляцией"} (${f1(pi)} %).`,
+`Аренда приносит ${pc(r.yb)} в год от вложений — ${r.yb>=dr?"больше":"меньше"} ставки вклада (${f1(dr)} %).${r.yb>=dr?"":" Основной доход даёт рост цены квартиры."}`];
+if(r.mo)adv.push(`Аренда покрывает ${Math.round(r.avg/r.mo.first*100)} % первого платежа по ипотеке (${rub(r.mo.first)}).`);else if(pb)adv.push(`Только за счёт аренды вложения вернулись бы примерно за ${f1(pb)} лет.`);
+if(r.st>0)adv.push(`Налог при продаже — ${rub(r.st)}: после 5 лет владения налога нет.`);
+sb.innerHTML=SCN.map((s,i)=>{const x=O(rs[i]);return`<button type="button" data-k="${i+1}"${i==SK-1?' class="on"':""}>${s.n}<small>${shm(x.p)} · ${pc(x.i)}</small></button>`}).join("");
+c.innerHTML=`<div class="hl">Через ${T} ${yw(T)} вы заработаете <b>${rub(o.p)}</b></div>${o.rp!=null?`<p class="n" style="margin:2px 0 0">В сегодняшних рублях это примерно ${rub(o.rp)}</p>`:""}
+<div class="vd ${vd[0]}">${vd[1]}</div>
+<div class="b3"><div>Доходность в год<b>${pc(o.i)}</b></div><div>Окупаемость арендой<b>${pb?f1(pb)+"\u00a0лет":"нет"}</b></div><div>Ваши вложения<b>${shm(o.eq)}</b></div></div>
+<p class="n" style="margin:10px 0 2px">Ваш капитал через ${T} ${yw(T)}</p>
+<div class="bar"><span>Квартира</span><i style="width:${bw(cap)}%"></i><span>${shm(cap)}</span></div><div class="bar d"><span>Вклад</span><i style="width:${bw(dc)}%"></i><span>${shm(dc)}</span></div>
+<ul class="adv">${adv.map(a=>`<li>${a}</li>`).join("")}</ul>
+<p class="n">Это расчёт по вашим допущениям, а не прогноз и не гарантия дохода. ${document.querySelector('a[href="metodika.html"]')?'<a href="metodika.html" style="color:var(--ac)">Как мы это считали</a> · ':""}<button type="button" class="lk" id="todet" style="margin:0">Подробный расчёт →</button></p>`}
+function setView(v){document.documentElement.classList.toggle("simple",v=="s");document.querySelectorAll("#vm button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));try{localStorage.setItem("vm",v)}catch(e){}if(v=="s")syncSimple();go()}
+$("vm").onclick=ev=>{const b=ev.target.closest&&ev.target.closest("button");if(b)setView(b.dataset.v)};
+$("sseg").onclick=ev=>{const b=ev.target.closest&&ev.target.closest("button");if(!b)return;SK=+b.dataset.k;document.querySelectorAll("#seg button").forEach(x=>x.classList.toggle("on",x.dataset.k==SK));syncSimple();go()};
+$("scalc").onclick=()=>{syncSimple();go()};$("sf").addEventListener("keydown",ev=>{if(ev.key=="Enter"){ev.preventDefault();syncSimple();go()}});
+document.addEventListener("click",ev=>{if(ev.target.id=="todet")setView("d")});
 function scnHtml(rs){const c=$("scn");if(!rs){c.style.display="none";return}c.style.display="";const has=rs[0].real,hd=rs[0].dep,row=(l,f,b)=>`<tr${b?' class="b"':""}><td>${l}</td>${rs.map(r=>`<td>${f(r)}</td>`).join("")}</tr>`;
 c.innerHTML=`<b>Сценарии на ${Math.round(num("hz"))} лет</b><table><tr class="s"><td></td>${["Пессим.","Базовый","Оптим."].map((n,i)=>`<td>${n}${i==SK-1?" ●":""}</td>`).join("")}</tr>
 ${row("Цена через срок",r=>rub(r.nom.growth*r.inv))}${row("Прибыль за срок",r=>rub(r.nom.tp))}${row("Общая доходность в год",r=>pc(r.nom.tc),1)}${row("IRR",r=>pc(r.nom.irr),1)}${has?row("IRR с учётом инфляции",r=>pc(r.real.irr)):""}${hd?row("Разница с вкладом",r=>sg(r.dep.op-r.dep.pf)):""}</table>
@@ -218,7 +270,7 @@ return[y&&y+" "+pl(y,["год","года","лет"]),m&&m+" "+pl(m,["месяц"
 (function(){let t;try{t=localStorage.getItem("th")}catch(e){}if(t=="light")document.documentElement.dataset.theme="light";const b=$("th"),sync=()=>b.textContent=document.documentElement.dataset.theme=="light"?"Тёмная тема":"Светлая тема";sync();
 b.onclick=()=>{const l=document.documentElement.dataset.theme!="light";document.documentElement.dataset.theme=l?"light":"dark";try{localStorage.setItem("th",l?"light":"dark")}catch(e){}sync();window.LR&&chart(window.LR)}})();
 let done=false;
-function go(e){e&&e.preventDefault();$("er").textContent="";try{
+function go(e){e&&e.preventDefault();$("er").textContent="";$("ser").textContent="";try{
 const pl=isPlan(),cm={ut:num("ut"),ptax:$("pk").checked?num("pa"):0,mort:$("mc").checked?readMort():null,dep:$("dc").checked?readDep():null,rb:num("rb"),rw:num("rw"),inf:$("inf").checked,rtax:$("tx").checked?+$("tr").value:0,sale:$("st").checked?+$("sy").value:0};
 FUT=Math.pow(1+(pl?(parseFloat($("pi").value.replace(",","."))||0):6)/100,1/12)-1;lv.length=1;// в режиме плана инфляция после известных данных — ваше допущение
 let r,rs=null;
@@ -242,12 +294,12 @@ ${$("st").checked?`<tr><td>НДФЛ при продаже</td><td colspan=2>${ru
 <tr><td>Вклад: прибыль за срок</td>${two?`<td>${rub(r.dep.pf)}</td><td>${rub(r.dep.rpf)}</td>`:`<td colspan=2>${rub(r.dep.pf)}</td>`}</tr>
 <tr><td>Недвижимость: прибыль за срок</td>${two?`<td>${rub(r.dep.op)}</td><td>${rub(r.dep.rop)}</td>`:`<td colspan=2>${rub(r.dep.op)}</td>`}</tr>
 <tr class="b"><td>Разница в пользу недвижимости</td>${two?`<td>${sg(r.dep.op-r.dep.pf)}</td><td>${sg(r.dep.rop-r.dep.rpf)}</td>`:`<td colspan=2>${sg(r.dep.op-r.dep.pf)}</td>`}</tr>`:""}</table>${r.mo?'<p class="n">Основные показатели выше — по объекту без ипотеки. Налоговый вычет (возврат НДФЛ: до 260 тыс. р. за покупку и до 390 тыс. р. за проценты) в доходность не входит и зависит от вашего НДФЛ.</p>':""}
-${two?'<p class="n">«С учётом инфляции» — те же суммы в рублях на дату покупки: реальная доходность за вычетом обесценивания рубля.</p>':""}`;$("chd").style.display="";$("cm").style.display=R?"":"none";if(!R)$("cm").value="n";chart(r);$("ib").style.display="";$("ibb").innerHTML=irrHtml(r);scnHtml(rs);histHtml(!!rs);done=true}catch(x){$("er").textContent=x.message}return false}
+${two?'<p class="n">«С учётом инфляции» — те же суммы в рублях на дату покупки: реальная доходность за вычетом обесценивания рубля.</p>':""}`;$("chd").style.display="";$("cm").style.display=R?"":"none";if(!R)$("cm").value="n";chart(r);$("ib").style.display="";$("ibb").innerHTML=irrHtml(r);scnHtml(rs);histHtml(!!rs);svHtml(r,rs);done=true}catch(x){$("er").textContent=x.message;$("ser").textContent=x.message}return false}
 const TA={t3:["tx","st","pk"],t4:["mc"],t5:["dc"]};// вкладка подсвечивается, когда включена её функция
 function syncTabs(){document.querySelectorAll(".tb").forEach(b=>{const a=TA[b.dataset.t];b.classList.toggle("act",!!a&&a.some(i=>$(i).checked))})}
-document.addEventListener("change",()=>{syncTabs();done&&go()});syncTabs();
+document.addEventListener("change",ev=>{if(isSimple()&&ev.target.closest&&ev.target.closest("#sf"))syncSimple();syncTabs();done&&go()});syncTabs();
 addEventListener("resize",()=>window.LR&&chart(window.LR));
 $("dl").textContent=lastLabel();
 fetch("data/inflation.json",{cache:"no-cache"}).then(r=>r.json()).then(j=>{if(setData(j)){$("dl").textContent=lastLabel();done&&go()}}).catch(()=>{});
-go();
+setView(isSimple()?"s":"d");
 </script></body></html>
