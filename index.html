@@ -40,6 +40,9 @@ small,.n{color:var(--mu);font-size:12px}.e{color:#fb923c}:root[data-theme=light]
 .b3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.b3>div{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px;font-size:12px;color:var(--mu)}.b3 b{display:block;font-size:17px;margin-top:3px;color:var(--tx)}
 .bar{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}.bar>span:first-child{flex:none;width:74px}.bar i{display:block;flex:none;height:16px;border-radius:4px;background:var(--ac)}.bar.d i{background:#e5a24a}.adv{padding-left:18px;margin:8px 0}.adv li{margin:6px 0}
 .seg button small{display:block;margin-top:3px;font-size:11px;font-weight:600;opacity:.9}
+.seg button small{color:inherit;opacity:1}
+#scalc{margin-top:14px;padding:11px 20px;border:0;border-radius:10px;background:var(--ac);color:#111827;font-weight:700}:root[data-theme=light] #scalc{color:#fff}
+.lk{border:0}#todet{font:inherit;color:var(--ac);background:none;border:0;padding:0;text-decoration:underline}
 </style></head><body><main>
 <script>try{if(localStorage.getItem("vm")!="d")document.documentElement.classList.add("simple")}catch(e){document.documentElement.classList.add("simple")}</script>
 <div class="hd"><h1>Доходность недвижимости</h1><button type="button" class="th" id="th"></button></div>
@@ -47,13 +50,13 @@ small,.n{color:var(--mu);font-size:12px}.e{color:#fb923c}:root[data-theme=light]
 <div class="g"><div class="c" id="sf">
 <p class="n" style="margin:0 0 4px">Поля заполнены примером — замените своими данными.</p>
 <label>Цена квартиры, р.</label><input class="m" id="sp" inputmode="numeric" value="8 000 000">
-<label>Аренда в месяц, р. (с учётом простоев)</label><input class="m" id="sr" inputmode="numeric" value="45 000">
+<label>Аренда в месяц, р. (с учётом простоев)</label><input class="m" id="sr" inputmode="numeric" value="32 000">
 <label>На сколько лет покупаете</label><input class="m" id="sh" inputmode="numeric" value="10">
+<label>Ставка вклада для сравнения, % годовых</label><input id="sv2" inputmode="decimal" value="13,5">
 <label>Сценарий</label><div class="seg" id="sseg"></div>
 <details style="margin-top:12px"><summary><b>Дополнительно</b></summary>
 <label>Затраты на ремонт, р.</label><input class="m" id="sn" inputmode="numeric" value="0">
 <label>Ожидаемая инфляция, % в год</label><input id="si" inputmode="decimal" value="6">
-<label>Ставка вклада для сравнения, % годовых</label><input id="sv2" inputmode="decimal" value="14">
 <div class="r"><input type="checkbox" id="stx"><span>Учесть налоги (НДФЛ с аренды 13 % и при продаже)</span></div>
 <div class="r"><input type="checkbox" id="smc"><span>Покупка в ипотеку</span></div>
 <label>Первоначальный взнос, р.</label><input class="m" id="sdn" inputmode="numeric" value="2 400 000">
