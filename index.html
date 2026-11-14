@@ -43,10 +43,11 @@ small,.n{color:var(--mu);font-size:12px}.e{color:#fb923c}:root[data-theme=light]
 .seg button small{color:inherit;opacity:1}
 #scalc{margin-top:14px;padding:11px 20px;border:0;border-radius:10px;background:var(--ac);color:#111827;font-weight:700}:root[data-theme=light] #scalc{color:#fff}
 .lk{border:0}#todet{font:inherit;color:var(--ac);background:none;border:0;padding:0;text-decoration:underline}
+#scn td:first-child{overflow-wrap:normal;word-break:normal;min-width:84px}@media(max-width:560px){#scn table{font-size:13px}#scn td+td{padding-left:4px}}
 </style></head><body><main>
 <script>try{if(localStorage.getItem("vm")!="d")document.documentElement.classList.add("simple")}catch(e){document.documentElement.classList.add("simple")}</script>
 <div class="hd"><h1>Доходность недвижимости</h1><button type="button" class="th" id="th"></button></div>
-<div class="seg" id="vm" style="max-width:340px;margin:0 0 12px;grid-template-columns:repeat(2,1fr)"><button type="button" data-v="s" class="on">Просто</button><button type="button" data-v="d">Подробно</button></div>
+<div class="seg" id="vm" style="max-width:340px;margin:0 0 12px;grid-template-columns:repeat(2,1fr)"><button type="button" data-v="s" class="on">Базовый</button><button type="button" data-v="d">Pro</button></div>
 <div class="g"><div class="c" id="sf">
 <p class="n" style="margin:0 0 4px">Поля заполнены примером — замените своими данными.</p>
 <label>Цена квартиры, р.</label><input class="m" id="sp" inputmode="numeric" value="8 000 000">
@@ -217,7 +218,7 @@ c.innerHTML=`<div class="hl">Через ${T} ${yw(T)} вы заработает�
 <p class="n" style="margin:10px 0 2px">Ваш капитал через ${T} ${yw(T)}</p>
 <div class="bar"><span>Квартира</span><i style="width:${bw(cap)}%"></i><span>${shm(cap)}</span></div><div class="bar d"><span>Вклад</span><i style="width:${bw(dc)}%"></i><span>${shm(dc)}</span></div>
 <ul class="adv">${adv.map(a=>`<li>${a}</li>`).join("")}</ul>
-<p class="n">Это расчёт по вашим допущениям, а не прогноз и не гарантия дохода. ${document.querySelector('a[href="metodika.html"]')?'<a href="metodika.html" style="color:var(--ac)">Как мы это считали</a> · ':""}<button type="button" class="lk" id="todet" style="margin:0">Подробный расчёт →</button></p>`}
+<p class="n">Это расчёт по вашим допущениям, а не прогноз и не гарантия дохода. ${document.querySelector('a[href="metodika.html"]')?'<a href="metodika.html" style="color:var(--ac)">Как мы это считали</a> · ':""}<button type="button" class="lk" id="todet" style="margin:0">Расширенный расчёт Pro →</button></p>`}
 function setView(v){document.documentElement.classList.toggle("simple",v=="s");document.querySelectorAll("#vm button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));try{localStorage.setItem("vm",v)}catch(e){}if(v=="s")syncSimple();go()}
 $("vm").onclick=ev=>{const b=ev.target.closest&&ev.target.closest("button");if(b)setView(b.dataset.v)};
 $("sseg").onclick=ev=>{const b=ev.target.closest&&ev.target.closest("button");if(!b)return;SK=+b.dataset.k;document.querySelectorAll("#seg button").forEach(x=>x.classList.toggle("on",x.dataset.k==SK));syncSimple();go()};
@@ -225,7 +226,7 @@ $("scalc").onclick=()=>{syncSimple();go()};$("sf").addEventListener("keydown",ev
 document.addEventListener("click",ev=>{if(ev.target.id=="todet")setView("d")});
 function scnHtml(rs){const c=$("scn");if(!rs){c.style.display="none";return}c.style.display="";const has=rs[0].real,hd=rs[0].dep,row=(l,f,b)=>`<tr${b?' class="b"':""}><td>${l}</td>${rs.map(r=>`<td>${f(r)}</td>`).join("")}</tr>`;
 c.innerHTML=`<b>Сценарии на ${Math.round(num("hz"))} лет</b><table><tr class="s"><td></td>${["Пессим.","Базовый","Оптим."].map((n,i)=>`<td>${n}${i==SK-1?" ●":""}</td>`).join("")}</tr>
-${row("Цена через срок",r=>rub(r.nom.growth*r.inv))}${row("Прибыль за срок",r=>rub(r.nom.tp))}${row("Общая доходность в год",r=>pc(r.nom.tc),1)}${row("IRR",r=>pc(r.nom.irr),1)}${has?row("IRR с учётом инфляции",r=>pc(r.real.irr)):""}${hd?row("Разница с вкладом",r=>sg(r.dep.op-r.dep.pf)):""}</table>
+${row("Цена через срок",r=>shm(r.nom.growth*r.inv))}${row("Прибыль за срок",r=>shm(r.nom.tp))}${row("Доходность в год",r=>pc(r.nom.tc),1)}${row("IRR",r=>pc(r.nom.irr),1)}${has?row("IRR с учётом инфляции",r=>pc(r.real.irr)):""}${hd?row("Разница с вкладом",r=>(x=>(x>0?"+":"")+shm(x))(r.dep.op-r.dep.pf)):""}</table>
 <p class="n">Сценарии — не прогноз, а допущения: цена и аренда растут относительно инфляции. Подробный расчёт ниже — для выбранного сценария (●).</p>`;$("sdesc").textContent=descr(SK)}
 function addRow(s,e,r){const d=document.createElement("div");d.className="pr1";d.innerHTML=`<input type="date" value="${s}"><input type="date" value="${e}"><div class="rr"><input class="m" inputmode="numeric" placeholder="Аренда, р. в месяц" value="${r}"><b class="x" title="Удалить период">✕</b></div>`;$("rows").appendChild(d)}
 document.addEventListener("click",ev=>{if(ev.target.classList&&ev.target.classList.contains("x")){const rs=document.querySelectorAll(".pr1"),r=ev.target.closest(".pr1");if(rs.length>1)r.remove();else r.querySelectorAll("input").forEach(i=>i.value="");done&&go()}});
